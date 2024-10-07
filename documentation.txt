@@ -1,0 +1,46 @@
+website link: https://image.intervention.io/v3
+
+Step to follow your project:
+
+Step 1: 
+Use your composer to run: 
+composer require intervention/image
+
+Step 2:
+Use your image uploaded controller add:
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Image;
+use File;
+
+Step 3:
+Upload Image Code for Create:
+
+ 	if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $img = time() . '-student.' . $image->getClientOriginalExtension();
+            $location = public_path('uploads/students/' . $img);
+
+            $manager = new ImageManager(new Driver());
+            $manager->read($image)->save($location);
+
+            $addStudent->image = $img;
+        }
+
+Update new image and existing image delete:
+
+	if ($request->hasFile('image')) {
+
+                if ( File::exists('uploads/students/' . $updateStudent->image  ) ) {
+                    File::delete('uploads/students/' . $updateStudent->image);
+                }
+
+                $image = $request->file('image');
+                $img = time() . '-student.' . $image->getClientOriginalExtension();
+                $location = public_path('uploads/students/' . $img);
+
+                $manager = new ImageManager(new Driver());
+                $manager->read($image)->save($location);
+
+                $updateStudent->image = $img;
+            }
